@@ -24,14 +24,20 @@ body {
     background-color: #333;
     color: white;
     text-indent: -9999px; /* Hide text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.game-button.revealed {
-    text-indent: 0; /* Reveal text */
+.game-button img {
+    display: none; /* Hide images initially */
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
 }
 
-.game-button:hover {
-    background-color: #555;
+.game-button.revealed img {
+    display: block; /* Reveal images */
 }
 
 .play-button, .end-button {
@@ -73,4 +79,43 @@ input, #generateButton {
     margin: 10px;
     padding: 10px;
     font-size: 16px;
+}
+
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    text-align: center;
+    font-size: 24px;
+    border-radius: 10px;
+}
+
+.play-again-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.play-again-button:hover {
+    background-color: #0056b3;
 }
