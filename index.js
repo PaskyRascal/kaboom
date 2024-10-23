@@ -5,6 +5,8 @@ let numZeros = 0;
 let numOnes = 0;
 let numRevealedOnes = 0;
 
+//This begins a function called generateRandomValues that takes one input, numZeros. 
+//This number tells the function how many '0's to create in the game.
 function generateRandomValues(numZerosInput, numOnesInput) {
     const buttons = document.querySelectorAll('.button-grid button');
     let zerosCount = 0;
@@ -13,16 +15,24 @@ function generateRandomValues(numZerosInput, numOnesInput) {
     numOnes = numOnesInput;
     numRevealedOnes = 0;
 
-    buttons.forEach(button => {
+    // Filling Buttons with Random Values
+     buttons.forEach(button => {
         const img = button.querySelector('img');
+
+        //This checks if we still need to add more '0's. 
+        //If we have fewer '0's than numZeros, we move into the next block.
         if (zerosCount < numZeros) {
             img.src = 'https://twemoji.maxcdn.com/v/latest/72x72/1f621.png'; // Path to negative emoji
             button.dataset.value = '0';
             zerosCount++;
+
+        //This checks if we still need to add more '1's.
         } else if (onesCount < numOnes) {
             img.src = 'https://twemoji.maxcdn.com/v/latest/72x72/1f603.png'; // Path to positive emoji
             button.dataset.value = '1';
             onesCount++;
+
+            //If we have added all the '1's, we add '0's to the remaining buttons.
         } else {
             img.src = 'https://twemoji.maxcdn.com/v/latest/72x72/1f603.png'; // Path to positive emoji
             button.dataset.value = '1';
@@ -30,10 +40,13 @@ function generateRandomValues(numZerosInput, numOnesInput) {
         button.classList.remove('revealed'); // Hide image initially
         button.disabled = false; // Enable buttons
     });
-
+//This sets the score to 0 and updates the score display.
     gameActive = true;
+    // Reset score
     score = 0;
+    // Reset multiplier
     updateScoreDisplay();
+    //
     document.getElementById('popup').style.display = 'none'; // Hide popup
 }
 
@@ -41,7 +54,16 @@ function updateScoreDisplay() {
     document.getElementById('score').textContent = `Score: ${score.toFixed(2)}`;
 }
 
+
+
+
+
+
+//Setting Up the Play Button
+
+//This function waits for the player to click the play button.  
 document.getElementById('playButton').addEventListener('click', function() {
+    
     const numZeros = parseInt(document.getElementById('numZeros').value, 10);
     const numOnes = parseInt(document.getElementById('numOnes').value, 10);
     if (numZeros + numOnes <= 25) {
