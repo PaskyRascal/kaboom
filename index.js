@@ -4,27 +4,34 @@ let score = 0;
 function generateRandomValues(numZeros) {
     const buttons = document.querySelectorAll('.button-grid button');
     let zerosCount = 0;
+    let onesCount = 0;
 
+    // Reset all buttons
     buttons.forEach(button => {
         button.style.backgroundColor = '#333'; // Reset background color
         button.disabled = false; // Enable buttons
         button.dataset.value = ''; // Reset value
+    });
 
+    // Shuffle buttons array
+    const shuffledButtons = Array.from(buttons).sort(() => Math.random() - 0.5);
+
+    // Assign zeros
+    shuffledButtons.forEach(button => {
         if (zerosCount < numZeros) {
-            if (Math.random() < 0.5) {
-                button.dataset.value = '0';
-                zerosCount++;
-            } else {
-                button.dataset.value = '1';
-            }
+            button.dataset.value = '0';
+            zerosCount++;
         } else {
             button.dataset.value = '1';
+            onesCount++;
         }
     });
+
     gameActive = true;
     score = 0; // Reset score
     document.getElementById('score').textContent = `Score: ${score}`;
 }
+
 
 document.getElementById('playButton').addEventListener('click', function() {
     const numZeros = parseInt(document.getElementById('numZeros').value, 10);
