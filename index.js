@@ -32,11 +32,19 @@ document.getElementById('playButton').addEventListener('click', function() {
 
     if (numZeros > 0 && numZeros < totalButtons) {
         generateRandomValues(numZeros);
-        this.classList.add('active');
-        this.textContent = 'Game On';
+        this.innerText = 'Replay';
+        this.style.display = 'none';
+        document.getElementById('stopButton').style.display = 'inline-block';
     } else {
         alert(`Please enter a number between 1 and ${totalButtons - 1}`);
     }
+});
+
+document.getElementById('stopButton').addEventListener('click', function() {
+    gameActive = false;
+    document.querySelectorAll('.button-grid button').forEach(btn => btn.disabled = true);
+    document.getElementById('playButton').style.display = 'inline-block';
+    this.style.display = 'none';
 });
 
 document.querySelectorAll('.button-grid button').forEach(button => {
@@ -45,7 +53,12 @@ document.querySelectorAll('.button-grid button').forEach(button => {
             button.disabled = true; // Disable the button after click
             if (button.dataset.value === '0') {
                 button.style.backgroundColor = 'red';
+                gameActive = false;
                 document.querySelectorAll('.button-grid button').forEach(btn => btn.disabled = true);
+                document.getElementById('playButton').style.display = 'inline-block';
+                document.getElementById('stopButton').style.display = 'none';
+                document.getElementById('score').textContent = `Game Over, Score: ${score}`;
+
             } else {
                 button.style.backgroundColor = 'green';
                 score++;
