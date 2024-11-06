@@ -33,6 +33,45 @@ function generateRandomValues(numZeros) {
 }
 
 
+function updateGrid() {
+    const gridSize = parseInt(document.getElementById('gridSizeSlider').value);
+    const numberOfButtons = gridSize * gridSize;
+    const buttonGrid = document.getElementById('buttonGrid');
+    buttonGrid.innerHTML = ''; // Clear existing buttons
+
+    for (let i = 1; i <= numberOfButtons; i++) {
+        const button = document.createElement('button');
+        button.className = 'game-button';
+        button.id = `button${i}`;
+        buttonGrid.appendChild(button);
+    }
+
+    // Update CSS grid layout
+    buttonGrid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+
+    // Add event listeners to new buttons
+    document.querySelectorAll('.button-grid button').forEach(button => {
+        button.addEventListener('click', function() {
+            if (gameActive && !button.disabled) {
+                button.disabled = true; // Disable the button after click
+                if (button.dataset.value === '0') {
+                    button.style.backgroundColor = 'red';
+                    gameActive = false;
+                    document.querySelectorAll('.button-grid button').forEach(btn => btn.disabled = true);
+                    document.getElementById('playButton').style.display = 'inline-block';
+                    document.getElementById('stopButton').style.display = 'none';
+                    document.getElementById('score').textContent = `Game Over, Score: ${score}`;
+                } else {
+                    button.style.backgroundColor = 'green';
+                    score++;
+                    document.getElementById('score').textContent = `Score: ${score}`;
+                }
+            }
+        });
+    });
+}
+
+document.getElementById('gridSizeSlider').addEventListener('input', updateGrid);
 document.getElementById('playButton').addEventListener('click', function() {
     const numZeros = parseInt(document.getElementById('numZeros').value, 10);
     const totalButtons = document.querySelectorAll('.button-grid button').length;
@@ -54,23 +93,5 @@ document.getElementById('stopButton').addEventListener('click', function() {
     this.style.display = 'none';
 });
 
-document.querySelectorAll('.button-grid button').forEach(button => {
-    button.addEventListener('click', function() {
-        if (gameActive && !button.disabled) {
-            button.disabled = true; // Disable the button after click
-            if (button.dataset.value === '0') {
-                button.style.backgroundColor = 'red';
-                gameActive = false;
-                document.querySelectorAll('.button-grid button').forEach(btn => btn.disabled = true);
-                document.getElementById('playButton').style.display = 'inline-block';
-                document.getElementById('stopButton').style.display = 'none';
-                document.getElementById('score').textContent = `Game Over, Score: ${score}`;
-
-            } else {
-                button.style.backgroundColor = 'green';
-                score++;
-                document.getElementById('score').textContent = `Score: ${score}`;
-            }
-        }
-    });
-});
+// Initialize grid on page load
+updateGrid();
